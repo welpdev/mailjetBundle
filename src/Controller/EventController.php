@@ -1,10 +1,9 @@
 <?php
 namespace Mailjet\MailjetBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -21,15 +20,14 @@ use Mailjet\MailjetBundle\Event\CallbackEvent;
  * Check regularly your server logs for any errors : all non 200 errors would be retried and could cause an increasing volume of calls to your system.
  * Leverage the transactional message tagging to simplify reconciliation between the events and your own system.
  */
-class EventController extends Controller
+class EventController extends AbstractController
 {
 
     /**
      * Endpoint for the mailjet events (webhooks)
      * https://dev.mailjet.com/guides/#events
      * https://live-event-dashboard-demo.mailjet.com/
-     * @Route("/endpoint/{token}", name="mailjet_event_endpoint")
-     * @Method({"POST"})
+     * @Route("/endpoint/{token}", name="mailjet_event_endpoint", methods={"POST"})
      */
     public function indexAction(Request $request, $token)
     {
@@ -58,25 +56,25 @@ class EventController extends Controller
             $type = $callbackData['event'];
             switch ($type) {
                 case 'sent':
-                    $dispatcher->dispatch(CallbackEvent::EVENT_SENT, new CallbackEvent($callbackData));
+                    $dispatcher->dispatch(new CallbackEvent($callbackData), CallbackEvent::EVENT_SENT);
                     break;
                 case 'open':
-                    $dispatcher->dispatch(CallbackEvent::EVENT_OPEN, new CallbackEvent($callbackData));
+                    $dispatcher->dispatch(new CallbackEvent($callbackData), CallbackEvent::EVENT_OPEN);
                     break;
                 case 'click':
-                    $dispatcher->dispatch(CallbackEvent::EVENT_CLICK, new CallbackEvent($callbackData));
+                    $dispatcher->dispatch(new CallbackEvent($callbackData), CallbackEvent::EVENT_CLICK);
                     break;
                 case 'bounce':
-                    $dispatcher->dispatch(CallbackEvent::EVENT_BOUNCE, new CallbackEvent($callbackData));
+                    $dispatcher->dispatch(new CallbackEvent($callbackData), CallbackEvent::EVENT_BOUNCE);
                     break;
                 case 'spam':
-                    $dispatcher->dispatch(CallbackEvent::EVENT_SPAM, new CallbackEvent($callbackData));
+                    $dispatcher->dispatch(new CallbackEvent($callbackData), CallbackEvent::EVENT_SPAM);
                     break;
                 case 'blocked':
-                    $dispatcher->dispatch(CallbackEvent::EVENT_BLOCKED, new CallbackEvent($callbackData));
+                    $dispatcher->dispatch(new CallbackEvent($callbackData), CallbackEvent::EVENT_BLOCKED);
                     break;
                 case 'unsub':
-                    $dispatcher->dispatch(CallbackEvent::EVENT_UNSUB, new CallbackEvent($callbackData));
+                    $dispatcher->dispatch(new CallbackEvent($callbackData), CallbackEvent::EVENT_UNSUB);
                     break;
                 default:
                     throw new BadRequestHttpException('Type mismatch');

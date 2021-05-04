@@ -1,7 +1,7 @@
 <?php
 namespace Mailjet\MailjetBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Documentation : https://dev.mailjet.com/email-api/v3/eventcallbackurl/

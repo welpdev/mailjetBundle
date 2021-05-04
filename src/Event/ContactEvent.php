@@ -2,7 +2,7 @@
 
 namespace Mailjet\MailjetBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 use Mailjet\MailjetBundle\Model\Contact;
 
 class ContactEvent extends Event

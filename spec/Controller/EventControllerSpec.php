@@ -27,7 +27,7 @@ class EventControllerSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType('Mailjet\MailjetBundle\Controller\EventController');
-        $this->shouldHaveType('Symfony\Bundle\FrameworkBundle\Controller\Controller');
+        $this->shouldHaveType('Symfony\Bundle\FrameworkBundle\Controller\AbstractController');
 
     }
 
@@ -78,7 +78,7 @@ class EventControllerSpec extends ObjectBehavior
         $container->getParameter('mailjet.event_endpoint_token')->shouldBeCalled()->willReturn('12345678');
         $container->get('event_dispatcher')->shouldBeCalled()->willReturn($eventDispatcher);
 
-        $eventDispatcher->dispatch(CallbackEvent::EVENT_UNSUB, new CallbackEvent(json_decode($data, true)))->shouldBeCalled();
+        $eventDispatcher->dispatch(new CallbackEvent(json_decode($data, true)), CallbackEvent::EVENT_UNSUB)->shouldBeCalled();
 
         $this->indexAction($request, '12345678');
     }
@@ -119,8 +119,8 @@ class EventControllerSpec extends ObjectBehavior
         $container->getParameter('mailjet.event_endpoint_token')->shouldBeCalled()->willReturn('12345678');
         $container->get('event_dispatcher')->shouldBeCalled()->willReturn($eventDispatcher);
 
-        $eventDispatcher->dispatch(CallbackEvent::EVENT_SENT, new CallbackEvent(json_decode($data, true)[0]))->shouldBeCalled();
-        $eventDispatcher->dispatch(CallbackEvent::EVENT_SENT, new CallbackEvent(json_decode($data, true)[1]))->shouldBeCalled();
+        $eventDispatcher->dispatch(new CallbackEvent(json_decode($data, true)[0]), CallbackEvent::EVENT_SENT)->shouldBeCalled();
+        $eventDispatcher->dispatch(new CallbackEvent(json_decode($data, true)[1]),CallbackEvent::EVENT_SENT)->shouldBeCalled();
 
         $this->indexAction($request, '12345678');
     }
@@ -252,13 +252,13 @@ class EventControllerSpec extends ObjectBehavior
         $container->getParameter('mailjet.event_endpoint_token')->shouldBeCalled()->willReturn('12345678');
         $container->get('event_dispatcher')->shouldBeCalled()->willReturn($eventDispatcher);
 
-        $eventDispatcher->dispatch(CallbackEvent::EVENT_SENT, new CallbackEvent(json_decode($data, true)[0]))->shouldBeCalled();
-        $eventDispatcher->dispatch(CallbackEvent::EVENT_OPEN, new CallbackEvent(json_decode($data, true)[1]))->shouldBeCalled();
-        $eventDispatcher->dispatch(CallbackEvent::EVENT_CLICK, new CallbackEvent(json_decode($data, true)[2]))->shouldBeCalled();
-        $eventDispatcher->dispatch(CallbackEvent::EVENT_BOUNCE, new CallbackEvent(json_decode($data, true)[3]))->shouldBeCalled();
-        $eventDispatcher->dispatch(CallbackEvent::EVENT_SPAM, new CallbackEvent(json_decode($data, true)[4]))->shouldBeCalled();
-        $eventDispatcher->dispatch(CallbackEvent::EVENT_BLOCKED, new CallbackEvent(json_decode($data, true)[5]))->shouldBeCalled();
-        $eventDispatcher->dispatch(CallbackEvent::EVENT_UNSUB, new CallbackEvent(json_decode($data, true)[6]))->shouldBeCalled();
+        $eventDispatcher->dispatch(new CallbackEvent(json_decode($data, true)[0]), CallbackEvent::EVENT_SENT)->shouldBeCalled();
+        $eventDispatcher->dispatch(new CallbackEvent(json_decode($data, true)[1]), CallbackEvent::EVENT_OPEN)->shouldBeCalled();
+        $eventDispatcher->dispatch(new CallbackEvent(json_decode($data, true)[2]), CallbackEvent::EVENT_CLICK)->shouldBeCalled();
+        $eventDispatcher->dispatch(new CallbackEvent(json_decode($data, true)[3]), CallbackEvent::EVENT_BOUNCE)->shouldBeCalled();
+        $eventDispatcher->dispatch(new CallbackEvent(json_decode($data, true)[4]), CallbackEvent::EVENT_SPAM)->shouldBeCalled();
+        $eventDispatcher->dispatch(new CallbackEvent(json_decode($data, true)[5]), CallbackEvent::EVENT_BLOCKED)->shouldBeCalled();
+        $eventDispatcher->dispatch(new CallbackEvent(json_decode($data, true)[6]), CallbackEvent::EVENT_UNSUB)->shouldBeCalled();
 
         $this->indexAction($request, '12345678');
     }

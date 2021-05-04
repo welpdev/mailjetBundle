@@ -3,13 +3,13 @@ namespace Mailjet\MailjetBundle\Command;
 
 use Mailjet\MailjetBundle\Manager\EventCallbackUrlManager;
 use Mailjet\MailjetBundle\Model\EventCallbackUrl;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class EventCommand extends ContainerAwareCommand
+class EventCommand extends Command
 {
     protected function configure()
     {

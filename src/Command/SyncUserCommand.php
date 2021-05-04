@@ -3,7 +3,7 @@
 namespace Mailjet\MailjetBundle\Command;
 
 use Mailjet\MailjetBundle\Synchronizer\ContactsListSynchronizer;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,7 +18,7 @@ use Mailjet\MailjetBundle\Provider\ProviderInterface;
  * Sync users in a mailjet contact list
  *
  */
-class SyncUserCommand extends ContainerAwareCommand
+class SyncUserCommand extends Command
 {
 
     /**
